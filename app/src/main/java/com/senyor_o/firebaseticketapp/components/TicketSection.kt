@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.senyor_o.firebaseticketapp.R
 import com.senyor_o.firebaseticketapp.Ticket
 import com.senyor_o.firebaseticketapp.ui.theme.*
 
@@ -29,67 +28,11 @@ fun TicketSection(
             contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
-            items(tickets.size) {
-                TicketCard(ticket = tickets[it])
+            tickets.forEach {
+                item {
+                    TicketCard(ticket = it)
+                }
             }
         }
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview(showBackground = true)
-@Composable
-fun TicketSectionPreview() {
-    FirebaseTicketAppTheme {
-        TicketSection(
-            title = "Open Tickets",
-            tickets = listOf(
-                Ticket(
-                    title = "Sleep meditation",
-                    "This is a description",
-                    "Biel Soler",
-                    0,
-                    null,
-                    R.drawable.ic_headphone,
-                    BlueViolet1,
-                    BlueViolet2,
-                    BlueViolet3
-                ),
-                Ticket(
-                    title = "Tips for sleeping",
-                    "This is a description",
-                    "Biel Soler",
-                    0,
-                    null,
-                    R.drawable.ic_videocam,
-                    LightGreen1,
-                    LightGreen2,
-                    LightGreen3
-                ),
-                Ticket(
-                    title = "Night island",
-                    "This is a description",
-                    "Biel Soler",
-                    0,
-                    null,
-                    R.drawable.ic_headphone,
-
-                    OrangeYellow1,
-                    OrangeYellow2,
-                    OrangeYellow3
-                ),
-                Ticket(
-                    title = "Calming sounds",
-                    "This is a description",
-                    "Biel Soler",
-                    0,
-                    null,
-                    R.drawable.ic_headphone,
-                    Beige1,
-                    Beige2,
-                    Beige3
-                )
-            )
-        )
     }
 }

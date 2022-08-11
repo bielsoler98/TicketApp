@@ -7,13 +7,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,14 +21,12 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.senyor_o.firebaseticketapp.R
 import com.senyor_o.firebaseticketapp.Ticket
 import com.senyor_o.firebaseticketapp.standardQuadFromTo
 import com.senyor_o.firebaseticketapp.ui.theme.*
@@ -102,32 +98,16 @@ fun TicketCard(
                 .fillMaxSize()
                 .padding(15.dp)
         ) {
-            val (icon, name, title, button) = createRefs()
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                placeholder = rememberVectorPainter(Icons.Default.Face),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(32.dp)
-                    .clip(CircleShape)                       // clip to the circle shape
-                    .border(2.dp, Color.Gray, CircleShape)
-                    .constrainAs(icon) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                    }
-            )
+            val (category, title, button) = createRefs()
             Text(
-                text = ticket.sentBy,
+                text = ticket.category,
                 style = MaterialTheme.typography.h2,
                 lineHeight = 26.sp,
                 modifier = Modifier
                     .padding(vertical = 2.dp, horizontal = 6.dp)
-                    .constrainAs(name) {
+                    .constrainAs(category) {
                     top.linkTo(parent.top)
-                    start.linkTo(icon.end)
+                    start.linkTo(parent.start)
                 }
             )
             Text(
@@ -173,7 +153,7 @@ fun TicketPreview() {
                 "Biel Soler",
                 0,
                 null,
-                R.drawable.ic_headphone,
+                null,
                 OrangeYellow1,
                 OrangeYellow2,
                 OrangeYellow3
