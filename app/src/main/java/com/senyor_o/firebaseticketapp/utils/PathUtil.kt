@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp
+package com.senyor_o.firebaseticketapp.utils
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path

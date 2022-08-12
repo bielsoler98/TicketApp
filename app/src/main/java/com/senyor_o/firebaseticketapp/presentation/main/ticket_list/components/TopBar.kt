@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.components
+package com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons

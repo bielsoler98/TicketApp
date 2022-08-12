@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.components
+package com.senyor_o.firebaseticketapp.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.senyor_o.firebaseticketapp.DrawerItem
+import com.senyor_o.firebaseticketapp.domain.model.DrawerItem
 import com.senyor_o.firebaseticketapp.ui.theme.AquaBlue
 import com.senyor_o.firebaseticketapp.ui.theme.ButtonBlue
 import com.senyor_o.firebaseticketapp.ui.theme.DeepBlue
@@ -22,7 +22,7 @@ fun Drawer(
     activeHighlightColor: Color = ButtonBlue,
     activeTextColor: Color = Color.White,
     inactiveTextColor: Color = AquaBlue,
-    initialSelectedItemIndex: Int = 0,
+    initialSelectedItemIndex: Int = 1,
     onItemClick: (DrawerItem) -> Unit
 ) {
     var selectedItemIndex by remember {

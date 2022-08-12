@@ -1,46 +1,42 @@
-package com.senyor_o.firebaseticketapp.components
+package com.senyor_o.firebaseticketapp.presentation.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.senyor_o.firebaseticketapp.Ticket
-import com.senyor_o.firebaseticketapp.standardQuadFromTo
+import com.senyor_o.firebaseticketapp.domain.model.CardColorSet
+import com.senyor_o.firebaseticketapp.domain.model.Ticket
+import com.senyor_o.firebaseticketapp.utils.standardQuadFromTo
 import com.senyor_o.firebaseticketapp.ui.theme.*
+import com.senyor_o.firebaseticketapp.domain.model.CardColor
 
 @Composable
 fun TicketCard(
-    ticket: Ticket
+    ticket: Ticket,
+    cardColor: CardColorSet
 ) {
     BoxWithConstraints(
         modifier = Modifier
             .padding(7.5.dp)
             .aspectRatio(16f / 9)
             .clip(RoundedCornerShape(10.dp))
-            .background(ticket.darkColor)
+            .background(cardColor.darkColor)
     ) {
         val width = constraints.maxWidth
         val height = constraints.maxHeight
@@ -86,11 +82,11 @@ fun TicketCard(
         ) {
             drawPath(
                 path = mediumColoredPath,
-                color = ticket.mediumColor
+                color = cardColor.mediumColor
             )
             drawPath(
                 path = lightColoredPath,
-                color = ticket.lightColor
+                color = cardColor.lightColor
             )
         }
         ConstraintLayout(
@@ -146,18 +142,19 @@ fun TicketCard(
 @Composable
 fun TicketPreview() {
     FirebaseTicketAppTheme {
+        val ticket = Ticket(
+            1,
+            title = "Night island",
+            "This is a description",
+            "Biel Soler",
+            0,
+            null,
+            null,
+            CardColor.RED
+        )
         TicketCard(
-            Ticket(
-                title = "Night island",
-                "This is a description",
-                "Biel Soler",
-                0,
-                null,
-                null,
-                OrangeYellow1,
-                OrangeYellow2,
-                OrangeYellow3
-            )
+            ticket = ticket,
+            cardColor = ticket.getCardColors()
         )
     }
 }

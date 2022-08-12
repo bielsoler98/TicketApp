@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.components
+package com.senyor_o.firebaseticketapp.presentation.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -7,10 +7,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.senyor_o.firebaseticketapp.Ticket
-import com.senyor_o.firebaseticketapp.ui.theme.*
+import com.senyor_o.firebaseticketapp.domain.model.Ticket
 
 @ExperimentalFoundationApi
 @Composable
@@ -30,7 +28,10 @@ fun TicketSection(
         ) {
             tickets.forEach {
                 item {
-                    TicketCard(ticket = it)
+                    TicketCard(
+                        ticket = it,
+                        cardColor = it.getCardColors()
+                    )
                 }
             }
         }
