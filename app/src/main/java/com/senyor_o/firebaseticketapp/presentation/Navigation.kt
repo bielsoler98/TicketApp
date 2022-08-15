@@ -2,10 +2,11 @@ package com.senyor_o.firebaseticketapp.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.senyor_o.firebaseticketapp.domain.repository.TicketRepository
+import androidx.navigation.navArgument
 import com.senyor_o.firebaseticketapp.presentation.edit.EditScreen
 import com.senyor_o.firebaseticketapp.presentation.main.MainScreen
 
@@ -16,14 +17,23 @@ fun Navigation(
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screen.MainScreen.route
+        startDestination = AppScreen.MainScreen.route
     ) {
-        composable(route = Screen.MainScreen.route) {
-            MainScreen()
+        composable(route = AppScreen.MainScreen.route) {
+            MainScreen(parentNavController = navController)
         }
-//        composable(route = Screen.EditScreen.route) {
-//            EditScreen(navController)
-//        }
+        composable(
+            route = AppScreen.EditScreen.route,
+            arguments = listOf(
+                navArgument(
+                    name = "ticketId"
+                ) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) {
+            EditScreen(navController)
+        }
     }
-
 }

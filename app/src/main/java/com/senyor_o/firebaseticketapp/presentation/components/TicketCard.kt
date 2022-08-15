@@ -28,7 +28,8 @@ import com.senyor_o.firebaseticketapp.domain.model.CardColor
 
 @Composable
 fun TicketCard(
-    ticket: Ticket,
+    title: String,
+    category: String,
     cardColor: CardColorSet
 ) {
     BoxWithConstraints(
@@ -94,23 +95,23 @@ fun TicketCard(
                 .fillMaxSize()
                 .padding(15.dp)
         ) {
-            val (category, title, button) = createRefs()
+            val (categoryRef, titleRef, button) = createRefs()
             Text(
-                text = ticket.category,
+                text = category,
                 style = MaterialTheme.typography.h2,
                 lineHeight = 26.sp,
                 modifier = Modifier
                     .padding(vertical = 2.dp, horizontal = 6.dp)
-                    .constrainAs(category) {
+                    .constrainAs(categoryRef) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 }
             )
             Text(
-                text = ticket.title,
+                text = title,
                 style = MaterialTheme.typography.h2,
                 lineHeight = 26.sp,
-                modifier = Modifier.constrainAs(title) {
+                modifier = Modifier.constrainAs(titleRef) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     bottom.linkTo(parent.bottom)
@@ -142,19 +143,10 @@ fun TicketCard(
 @Composable
 fun TicketPreview() {
     FirebaseTicketAppTheme {
-        val ticket = Ticket(
-            1,
-            title = "Night island",
-            "This is a description",
-            "Biel Soler",
-            0,
-            null,
-            null,
-            CardColor.RED
-        )
         TicketCard(
-            ticket = ticket,
-            cardColor = ticket.getCardColors()
+            title = "Night island",
+            category = "Biel Soler",
+            cardColor = CardColorSet.YELLOW
         )
     }
 }

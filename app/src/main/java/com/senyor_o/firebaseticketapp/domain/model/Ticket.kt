@@ -16,13 +16,6 @@ data class Ticket(
     @ColumnInfo(name = "closed_on") val closedOn: Long? = null,
     val cardColor: CardColor
 ) {
-    fun getCardColors()  =
-        when (cardColor) {
-            CardColor.RED -> CardColorSet(OrangeYellow1, OrangeYellow2, OrangeYellow3)
-            CardColor.GREEN -> CardColorSet(LightGreen1, LightGreen2, LightGreen3)
-            CardColor.BLUE -> CardColorSet(BlueViolet1, BlueViolet2, BlueViolet3)
-            CardColor.YELLOW -> CardColorSet(Beige1, Beige2, Beige3)
-        }
 
     fun isPending() = openedOn == null
 

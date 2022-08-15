@@ -4,10 +4,10 @@ sealed class Screen(val route: String) {
 
     object Home: Screen("home")
 
-    object OpenTickets: Screen("open")
-
-    object ClosedTickets: Screen("closed")
-
-    object ToDoTickets: Screen("to_do")
+    object TicketList: Screen("ticket_list/{ticketTypeId}") {
+        fun passId(ticketTypeId: Int): String{
+            return "ticket_list/$ticketTypeId"
+        }
+    }
 
 }

@@ -11,9 +11,9 @@ class GetTickets @Inject constructor(
 ) {
     operator fun invoke(ticketType: TicketType): Flow<List<Ticket>> =
         when(ticketType) {
-            TicketType.ClosedTickets -> repository.getAllClosedTickets()
-            TicketType.OpenTickets -> repository.getAllOpenTickets()
-            TicketType.ToDoTickets -> repository.getAllToDoTickets()
+            TicketType.CLOSED -> repository.getAllClosedTickets()
+            TicketType.OPEN -> repository.getAllOpenTickets()
+            TicketType.TODO -> repository.getAllToDoTickets()
         }
 
 }

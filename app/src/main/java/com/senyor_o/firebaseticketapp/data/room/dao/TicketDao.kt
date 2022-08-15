@@ -10,13 +10,13 @@ interface TicketDao {
     @Query("SELECT * FROM  Ticket")
     fun getAllTickets(): Flow<List<Ticket>>
 
-    @Query("SELECT * FROM  Ticket WHERE opened_on = null")
+    @Query("SELECT * FROM  Ticket WHERE opened_on is null")
     fun getAllToDoTickets(): Flow<List<Ticket>>
 
-    @Query("SELECT * FROM  Ticket WHERE closed_on = null")
+    @Query("SELECT * FROM  Ticket WHERE closed_on is null AND opened_on is not null")
     fun getAllOpenTickets(): Flow<List<Ticket>>
 
-    @Query("SELECT * FROM  Ticket WHERE closed_on != null")
+    @Query("SELECT * FROM  Ticket WHERE closed_on is not null")
     fun getAllClosedTickets(): Flow<List<Ticket>>
 
     @Query("SELECT * FROM  Ticket WHERE id = :id")

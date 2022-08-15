@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.presentation.components
+package com.senyor_o.firebaseticketapp.presentation.main.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,12 +22,8 @@ fun Drawer(
     activeHighlightColor: Color = ButtonBlue,
     activeTextColor: Color = Color.White,
     inactiveTextColor: Color = AquaBlue,
-    initialSelectedItemIndex: Int = 1,
-    onItemClick: (DrawerItem) -> Unit
+    selectedIndex: Int
 ) {
-    var selectedItemIndex by remember {
-        mutableStateOf(initialSelectedItemIndex)
-    }
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -43,13 +39,12 @@ fun Drawer(
                 ) {
                     DrawerItem(
                         item = it,
-                        isSelected = index == selectedItemIndex,
+                        isSelected = index == selectedIndex,
                         activeHighlightColor = activeHighlightColor,
                         activeTextColor = activeTextColor,
                         inactiveTextColor = inactiveTextColor
                     ) {
-                        onItemClick(it)
-                        selectedItemIndex = index
+                        it.onClick(index)
                     }
                 }
 

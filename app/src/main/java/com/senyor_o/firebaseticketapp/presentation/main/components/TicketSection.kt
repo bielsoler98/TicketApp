@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.presentation.components
+package com.senyor_o.firebaseticketapp.presentation.main.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.senyor_o.firebaseticketapp.domain.model.Ticket
+import com.senyor_o.firebaseticketapp.presentation.components.TicketCard
 
 @ExperimentalFoundationApi
 @Composable
@@ -29,8 +30,9 @@ fun TicketSection(
             tickets.forEach {
                 item {
                     TicketCard(
-                        ticket = it,
-                        cardColor = it.getCardColors()
+                        title = it.title,
+                        category = it.category,
+                        cardColor = it.cardColor.cardColorSet
                     )
                 }
             }

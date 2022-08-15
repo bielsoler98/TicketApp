@@ -5,6 +5,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -26,7 +27,7 @@ fun EditTopBar(
         navigationIcon = {
             IconButton(onClick = { onNavigationClicked() }) {
                 Icon(
-                    imageVector = Icons.Default.Menu,
+                    imageVector = Icons.Default.ArrowBack,
                     contentDescription = "go back"
                 )
             }
