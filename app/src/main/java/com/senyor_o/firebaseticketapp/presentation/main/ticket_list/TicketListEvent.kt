@@ -8,5 +8,9 @@ sealed class TicketListEvent {
 
     data class OpenTicket(val ticket: Ticket): TicketListEvent()
 
+    data class ReopenTicket(val ticket: Ticket): TicketListEvent()
+
     data class DeleteTicket(val ticket: Ticket): TicketListEvent()
+
+    data class MoveToToDo(val ticket: Ticket): TicketListEvent()
 }

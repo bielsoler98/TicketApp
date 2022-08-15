@@ -25,10 +25,13 @@ class TicketListViewModel @Inject constructor(
     private val _state: MutableState<TicketListState> = mutableStateOf(TicketListState())
     val state: State<TicketListState> = _state
 
+    private val _typeState: MutableState<TicketTypeState> = mutableStateOf(TicketTypeState())
+    val typeState: State<TicketTypeState> = _typeState
+
     init {
         savedStateHandle.get<Int>("ticketTypeId")?.let {
-            _state.value = _state.value.copy(ticketType = TicketType.values()[it])
-            getTickets(_state.value.ticketType!!).onEach { tickets ->
+            _typeState.value = _typeState.value.copy(ticketType = TicketType.values()[it])
+            getTickets(_typeState.value.ticketType).onEach { tickets ->
                 _state.value = state.value.copy(
                     tickets = tickets
                 )
@@ -46,6 +49,12 @@ class TicketListViewModel @Inject constructor(
             }
             is TicketListEvent.DeleteTicket -> viewModelScope.launch {
                 deleteTicket(event.ticket)
+            }
+            is TicketListEvent.ReopenTicket -> viewModelScope.launch {
+                insertTicket(event.ticket.copy(closedOn = null))
+            }
+            is TicketListEvent.MoveToToDo -> viewModelScope.launch {
+                insertTicket(event.ticket.copy(openedOn = null))
             }
         }
     }

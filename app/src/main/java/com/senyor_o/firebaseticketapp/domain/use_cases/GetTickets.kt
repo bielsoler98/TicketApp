@@ -14,6 +14,7 @@ class GetTickets @Inject constructor(
             TicketType.CLOSED -> repository.getAllClosedTickets()
             TicketType.OPEN -> repository.getAllOpenTickets()
             TicketType.TODO -> repository.getAllToDoTickets()
+            TicketType.ALL -> { repository.getAllTickets() }
         }
 
 }

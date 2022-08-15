@@ -30,7 +30,10 @@ import com.senyor_o.firebaseticketapp.domain.model.CardColor
 fun TicketCard(
     title: String,
     category: String,
-    cardColor: CardColorSet
+    cardColor: CardColorSet,
+    startButton: @Composable (Modifier) -> Unit = {},
+    endButton: @Composable (Modifier) -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -94,8 +97,11 @@ fun TicketCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(15.dp)
+                .clickable {
+                    onClick()
+                },
         ) {
-            val (categoryRef, titleRef, button) = createRefs()
+            val (categoryRef, titleRef, startButton, endButton) = createRefs()
             Text(
                 text = category,
                 style = MaterialTheme.typography.h2,
@@ -118,22 +124,17 @@ fun TicketCard(
                     end.linkTo(parent.end)
                 }
             )
-            Text(
-                text = "Close",
-                color = TextWhite,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .clickable {
-                        // Handle the click
-                    }
-                    .constrainAs(button) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    }
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(LightRed)
-                    .padding(vertical = 6.dp, horizontal = 15.dp)
+            startButton(
+                Modifier.constrainAs(startButton) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                }
+            )
+            endButton(
+                Modifier.constrainAs(endButton) {
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                }
             )
         }
     }

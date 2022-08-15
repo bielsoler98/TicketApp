@@ -6,7 +6,7 @@ sealed class AppScreen(val route: String) {
 
     object EditScreen: AppScreen("edit?ticketId={ticketId}") {
         fun passId(ticketId: Int?): String{
-            return "edit?ticketId={$ticketId}"
+            return "edit?ticketId=$ticketId"
         }
     }
 }
