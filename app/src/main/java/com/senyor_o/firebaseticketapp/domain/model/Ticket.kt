@@ -17,9 +17,11 @@ data class Ticket(
     val cardColor: CardColor
 ) {
 
-    fun isPending() = openedOn == null
-
-    fun isOpen() = openedOn != null && closedOn == null
-
-    fun isClosed() = closedOn != null
+    fun getType(): TicketType = if(openedOn == null) {
+        TicketType.TODO
+    } else if (closedOn == null) {
+        TicketType.OPEN
+    } else {
+        TicketType.CLOSED
+    }
 }

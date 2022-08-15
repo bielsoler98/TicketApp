@@ -2,6 +2,7 @@ package com.senyor_o.firebaseticketapp.presentation.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -30,6 +31,7 @@ import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components.T
 import com.senyor_o.firebaseticketapp.ui.theme.DeepBlue
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun MainScreen(

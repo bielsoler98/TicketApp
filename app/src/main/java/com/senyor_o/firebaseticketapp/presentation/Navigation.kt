@@ -1,6 +1,7 @@
 package com.senyor_o.firebaseticketapp.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,6 +11,7 @@ import androidx.navigation.navArgument
 import com.senyor_o.firebaseticketapp.presentation.edit.EditScreen
 import com.senyor_o.firebaseticketapp.presentation.main.MainScreen
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun Navigation(

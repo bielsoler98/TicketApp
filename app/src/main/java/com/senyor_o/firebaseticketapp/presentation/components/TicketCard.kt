@@ -31,12 +31,13 @@ fun TicketCard(
     title: String,
     category: String,
     cardColor: CardColorSet,
+    modifier: Modifier = Modifier,
     startButton: @Composable (Modifier) -> Unit = {},
     endButton: @Composable (Modifier) -> Unit = {},
     onClick: () -> Unit = {}
 ) {
     BoxWithConstraints(
-        modifier = Modifier
+        modifier = modifier
             .padding(7.5.dp)
             .aspectRatio(16f / 9)
             .clip(RoundedCornerShape(10.dp))

@@ -4,27 +4,27 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.SnackbarResult
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.senyor_o.firebaseticketapp.domain.model.Ticket
 import com.senyor_o.firebaseticketapp.domain.model.TicketType
 import com.senyor_o.firebaseticketapp.presentation.AppScreen
-import com.senyor_o.firebaseticketapp.presentation.edit.EditViewModel
-import com.senyor_o.firebaseticketapp.presentation.main.components.TicketSection
+import com.senyor_o.firebaseticketapp.presentation.components.TicketCard
+import com.senyor_o.firebaseticketapp.presentation.main.components.EndButton
+import com.senyor_o.firebaseticketapp.presentation.main.components.StartButton
 import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components.TicketStateButton
-import com.senyor_o.firebaseticketapp.ui.theme.*
+import com.senyor_o.firebaseticketapp.ui.theme.DarkerButtonBlue
+import com.senyor_o.firebaseticketapp.ui.theme.DeepBlue
+import com.senyor_o.firebaseticketapp.ui.theme.LightRed
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
@@ -61,115 +61,49 @@ fun TicketListScreen(
             .background(DeepBlue)
             .fillMaxSize()
     ) {
-        Column {
-            TicketSection(
-                title = typeState.ticketType.title,
-                tickets = state.tickets,
-                onItemClicked = {
-                    navController.navigate(AppScreen.EditScreen.passId(it))
-                },
-                startButton = { modifier, ticket ->
-                    StartButton(
-                        modifier = modifier,
-                        ticket = ticket,
-                        ticketType = typeState.ticketType,
-                        viewModel = viewModel
-                    )
-
-                },
-                endButton = { modifier, ticket ->
-                    EndButton(
-                        modifier = modifier,
-                        ticket = ticket,
-                        ticketType = typeState.ticketType,
-                        viewModel = viewModel
-                    )
-                }
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = typeState.ticketType.title,
+                style = MaterialTheme.typography.h1,
+                modifier = Modifier.padding(15.dp)
             )
+            LazyColumn(
+                contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                state.tickets.forEach {
+                    item {
+                        TicketCard(
+                            title = it.title,
+                            category = it.category,
+                            cardColor = it.cardColor.cardColorSet,
+                            onClick = {
+                                navController.navigate(AppScreen.EditScreen.passId(it.id))
+                            },
+                            startButton = { modifier ->
+                                StartButton(
+                                    modifier = modifier,
+                                    ticket = it,
+                                    ticketType = typeState.ticketType,
+                                    onClick = viewModel::onEvent
+                                )
+                            },
+                            endButton = { modifier ->
+                                EndButton(
+                                    modifier = modifier,
+                                    ticket = it,
+                                    ticketType = typeState.ticketType,
+                                    onClick = viewModel::onEvent
+                                )
+                            }
+                        )
+                    }
+                }
+            }
         }
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
-}
-
-@Composable
-fun StartButton(
-    modifier: Modifier,
-    ticket: Ticket,
-    ticketType: TicketType,
-    viewModel: TicketListViewModel
-) = when(ticketType) {
-    TicketType.ALL -> {}
-    TicketType.TODO -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "Delete",
-            backgroundColor = LightRed,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.DeleteTicket(ticket))
-            }
-        )
-    }
-    TicketType.OPEN -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "To Do",
-            backgroundColor = DarkerButtonBlue,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.MoveToToDo(ticket))
-            }
-        )
-    }
-    TicketType.CLOSED -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "Re-Open",
-            backgroundColor = DarkerButtonBlue,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.ReopenTicket(ticket))
-            }
-        )
-    }
-}
-
-@Composable
-fun EndButton(
-    modifier: Modifier,
-    ticket: Ticket,
-    ticketType: TicketType,
-    viewModel: TicketListViewModel
-) = when(ticketType) {
-    TicketType.ALL -> {}
-    TicketType.TODO -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "Open",
-            backgroundColor = DarkerButtonBlue,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.OpenTicket(ticket))
-            }
-        )
-    }
-    TicketType.OPEN -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "Close",
-            backgroundColor = LightRed,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.CloseTicket(ticket))
-            }
-        )
-    }
-    TicketType.CLOSED -> {
-        TicketStateButton(
-            modifier = modifier,
-            text = "Delete",
-            backgroundColor = LightRed,
-            onClick = {
-                viewModel.onEvent(TicketListEvent.DeleteTicket(ticket))
-            }
         )
     }
 }

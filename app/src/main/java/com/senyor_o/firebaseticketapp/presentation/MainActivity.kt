@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.TicketListViewModel
 import com.senyor_o.firebaseticketapp.ui.theme.FirebaseTicketAppTheme
 import dagger.hilt.EntryPoint
@@ -14,6 +15,7 @@ import dagger.hilt.android.components.ActivityComponent
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
