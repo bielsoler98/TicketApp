@@ -13,4 +13,6 @@ sealed class TicketListEvent {
     data class DeleteTicket(val ticket: Ticket): TicketListEvent()
 
     data class MoveToToDo(val ticket: Ticket): TicketListEvent()
+
+    data class UndoAction(val ticket: Ticket): TicketListEvent()
 }

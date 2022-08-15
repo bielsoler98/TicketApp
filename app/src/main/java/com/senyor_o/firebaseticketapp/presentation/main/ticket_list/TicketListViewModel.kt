@@ -6,9 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.senyor_o.firebaseticketapp.domain.model.Ticket
 import com.senyor_o.firebaseticketapp.domain.model.TicketType
 import com.senyor_o.firebaseticketapp.domain.use_cases.*
+import com.senyor_o.firebaseticketapp.presentation.edit.EditViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -28,6 +32,9 @@ class TicketListViewModel @Inject constructor(
     private val _typeState: MutableState<TicketTypeState> = mutableStateOf(TicketTypeState())
     val typeState: State<TicketTypeState> = _typeState
 
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
     init {
         savedStateHandle.get<Int>("ticketTypeId")?.let {
             _typeState.value = _typeState.value.copy(ticketType = TicketType.values()[it])
@@ -43,19 +50,31 @@ class TicketListViewModel @Inject constructor(
         when(event) {
             is TicketListEvent.OpenTicket -> viewModelScope.launch {
                 insertTicket(event.ticket.copy(openedOn = System.currentTimeMillis()))
+                _eventFlow.emit(UiEvent.TicketActionDone(event.ticket, "${event.ticket.title} opened!"))
             }
             is TicketListEvent.CloseTicket -> viewModelScope.launch {
                 insertTicket(event.ticket.copy(closedOn = System.currentTimeMillis()))
+                _eventFlow.emit(UiEvent.TicketActionDone(event.ticket, "${event.ticket.title} closed!"))
             }
             is TicketListEvent.DeleteTicket -> viewModelScope.launch {
                 deleteTicket(event.ticket)
+                _eventFlow.emit(UiEvent.TicketActionDone(event.ticket, "${event.ticket.title} deleted!"))
             }
             is TicketListEvent.ReopenTicket -> viewModelScope.launch {
                 insertTicket(event.ticket.copy(closedOn = null))
+                _eventFlow.emit(UiEvent.TicketActionDone(event.ticket, "${event.ticket.title} re-opened!"))
             }
             is TicketListEvent.MoveToToDo -> viewModelScope.launch {
                 insertTicket(event.ticket.copy(openedOn = null))
+                _eventFlow.emit(UiEvent.TicketActionDone(event.ticket, "${event.ticket.title} moved to ToDo list!"))
+            }
+            is TicketListEvent.UndoAction -> viewModelScope.launch {
+                insertTicket(event.ticket)
             }
         }
+    }
+
+    sealed class UiEvent {
+        data class TicketActionDone(val ticket: Ticket, val actionDescription: String): UiEvent()
     }
 }

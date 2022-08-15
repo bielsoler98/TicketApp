@@ -114,7 +114,10 @@ fun MainScreen(
                     }
                 )
             ) {
-                TicketListScreen(navController = parentNavController)
+                TicketListScreen(
+                    navController = parentNavController,
+                    scaffoldState = scaffoldState
+                )
             }
             composable(
                 route = Screen.Home.route,
