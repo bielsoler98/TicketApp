@@ -8,6 +8,7 @@ import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.TicketListEv
 import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.TicketListViewModel
 import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components.TicketStateButton
 import com.senyor_o.firebaseticketapp.ui.theme.DarkerButtonBlue
+import com.senyor_o.firebaseticketapp.ui.theme.LightGreen1
 import com.senyor_o.firebaseticketapp.ui.theme.LightRed
 
 @Composable
@@ -31,8 +32,8 @@ fun EndButton(
     TicketType.OPEN -> {
         TicketStateButton(
             modifier = modifier,
-            text = "Close",
-            backgroundColor = LightRed,
+            text = "Complete",
+            backgroundColor = LightGreen1,
             onClick = {
                 onClick(TicketListEvent.CloseTicket(ticket))
             }

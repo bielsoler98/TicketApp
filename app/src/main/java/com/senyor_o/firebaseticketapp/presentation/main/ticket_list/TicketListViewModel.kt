@@ -32,6 +32,9 @@ class TicketListViewModel @Inject constructor(
     private val _typeState: MutableState<TicketTypeState> = mutableStateOf(TicketTypeState())
     val typeState: State<TicketTypeState> = _typeState
 
+    private val _scrollState: MutableState<ScrollState> = mutableStateOf(ScrollState())
+    val scrollState: State<ScrollState> = _scrollState
+
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -43,6 +46,13 @@ class TicketListViewModel @Inject constructor(
                     tickets = tickets
                 )
             }.launchIn(viewModelScope)
+        }
+        savedStateHandle.get<Int>("scrollTo")?.let {
+            if(it != -1) {
+                _scrollState.value = scrollState.value.copy(
+                    scrollTo = it
+                )
+            }
         }
     }
 

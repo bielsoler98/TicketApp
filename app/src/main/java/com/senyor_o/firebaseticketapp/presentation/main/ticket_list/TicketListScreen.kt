@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,8 +35,10 @@ fun TicketListScreen(
     scaffoldState: ScaffoldState
 ) {
     val state = viewModel.state.value
+    val scrollState = viewModel.scrollState.value
     val typeState = viewModel.typeState.value
     val snackbarHostState = remember { SnackbarHostState() }
+    val listState = rememberLazyListState()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -55,7 +58,9 @@ fun TicketListScreen(
             }
         }
     }
-
+    LaunchedEffect(key1 = true) {
+        listState.animateScrollToItem(scrollState.scrollTo)
+    }
     Box(
         modifier = Modifier
             .background(DeepBlue)
@@ -68,6 +73,7 @@ fun TicketListScreen(
                 modifier = Modifier.padding(15.dp)
             )
             LazyColumn(
+                state = listState,
                 contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
                 modifier = Modifier.fillMaxHeight()
             ) {

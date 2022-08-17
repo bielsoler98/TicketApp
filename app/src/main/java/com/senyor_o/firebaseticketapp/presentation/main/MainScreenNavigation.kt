@@ -60,13 +60,11 @@ fun MainScreen(
             Drawer(
                 items = listOf(
                     DrawerItem("Home", Icons.Default.Home) {
-                        viewModel.changeIndex(it)
                         navController.navigate(Screen.Home.route) {
                             navController.popBackStack()
                         }
                     },
                     DrawerItem("To Do", Icons.Default.ListAlt){
-                        viewModel.changeIndex(it)
                         navController.navigate(
                             route = Screen.TicketList.passId(TicketType.TODO.ordinal)
                         ) {
@@ -74,7 +72,6 @@ fun MainScreen(
                         }
                     },
                     DrawerItem("Open", Icons.Default.Schedule){
-                        viewModel.changeIndex(it)
                         navController.navigate(
                             route = Screen.TicketList.passId(TicketType.OPEN.ordinal)
                         ) {
@@ -82,7 +79,6 @@ fun MainScreen(
                         }
                     },
                     DrawerItem("Completed", Icons.Default.TaskAlt){
-                        viewModel.changeIndex(it)
                         navController.navigate(
                             route = Screen.TicketList.passId(TicketType.CLOSED.ordinal)
                         ) {
@@ -113,9 +109,17 @@ fun MainScreen(
                         name = "ticketTypeId"
                     ) {
                         type = NavType.IntType
+                    },
+                    navArgument(
+                        name = "scrollTo"
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = -1
                     }
                 )
             ) {
+                val idx = it.arguments?.getInt("ticketTypeId") ?: 0
+                viewModel.changeIndex(idx)
                 TicketListScreen(
                     navController = parentNavController,
                     scaffoldState = scaffoldState
@@ -124,7 +128,8 @@ fun MainScreen(
             composable(
                 route = Screen.Home.route,
             ) {
-                HomeScreen(parentNavController)
+                viewModel.changeIndex(0)
+                HomeScreen(navController)
             }
         }
     }
