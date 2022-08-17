@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.senyor_o.firebaseticketapp.ui.theme.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity
 data class Ticket(
@@ -23,5 +25,26 @@ data class Ticket(
         TicketType.OPEN
     } else {
         TicketType.CLOSED
+    }
+
+    fun getFormattedCreationDate(): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        return formatter.format(Date(createdOn))
+    }
+
+    fun getFormattedOpenDate(): String {
+        openedOn?.let {
+            val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            return formatter.format(Date(openedOn))
+        }
+        return ""
+    }
+
+    fun getFormattedClosedDate(): String {
+        closedOn?.let {
+            val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            return formatter.format(Date(closedOn))
+        }
+        return ""
     }
 }

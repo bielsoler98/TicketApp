@@ -1,4 +1,4 @@
-package com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components
+package com.senyor_o.firebaseticketapp.presentation.main.components
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -20,14 +20,6 @@ fun TopBar(
         },
         backgroundColor = DeepBlue,
         contentColor = Color.White,
-        actions = {
-            IconButton(onClick = {  }) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search"
-                )
-            }
-        },
         navigationIcon = {
             IconButton(onClick = { onNavigationClicked() }) {
                 Icon(

@@ -37,14 +37,29 @@ class EditViewModel @Inject constructor(
     private val _ticketColor = mutableStateOf(ColorState())
     val ticketColor: State<ColorState> = _ticketColor
 
+    private val _ticketCreationDate = mutableStateOf(TextFieldState())
+    val ticketCreationDate: State<TextFieldState> = _ticketCreationDate
+
+    private val _ticketOpenDate = mutableStateOf(TextFieldState())
+    val ticketOpenDate: State<TextFieldState> = _ticketOpenDate
+
+    private val _ticketClosedDate = mutableStateOf(TextFieldState())
+    val ticketClosedDate: State<TextFieldState> = _ticketClosedDate
+
+    private val _dialogState = mutableStateOf(DialogState())
+    val dialogState: State<DialogState> = _dialogState
+
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    var currentTicketId: Int? = null
 
     init {
         savedStateHandle.get<Int>("ticketId")?.let { ticketId ->
             if(ticketId != -1) {
                 viewModelScope.launch {
                     getTicket(ticketId).also { ticket ->
+                        currentTicketId = ticket.id
                         _state.value = _state.value.copy(
                             ticket = ticket
                         )
@@ -59,6 +74,15 @@ class EditViewModel @Inject constructor(
                         )
                         _ticketColor.value = _ticketColor.value.copy(
                             color = ticket.cardColor
+                        )
+                        _ticketCreationDate.value = _ticketCreationDate.value.copy(
+                            text = ticket.getFormattedCreationDate()
+                        )
+                        _ticketOpenDate.value = _ticketOpenDate.value.copy(
+                            text = ticket.getFormattedOpenDate()
+                        )
+                        _ticketClosedDate.value = _ticketClosedDate.value.copy(
+                            text = ticket.getFormattedClosedDate()
                         )
                     }
                 }
@@ -90,22 +114,34 @@ class EditViewModel @Inject constructor(
             }
             EditEvent.InsertTicket -> {
                 viewModelScope.launch {
-                    insertTicket(
-                        Ticket(
-                            id = state.value.ticket?.id,
-                            title = ticketTitle.value.text,
-                            description = ticketDescription.value.text,
-                            category = ticketCategory.value.text,
-                            cardColor = ticketColor.value.color,
-                            createdOn = state.value.ticket?.createdOn ?: System.currentTimeMillis(),
-                            closedOn = state.value.ticket?.closedOn,
-                            openedOn = state.value.ticket?.openedOn,
+                    if(ticketTitle.value.text.isNotEmpty()) {
+                        insertTicket(
+                            Ticket(
+                                id = state.value.ticket?.id,
+                                title = ticketTitle.value.text,
+                                description = ticketDescription.value.text,
+                                category = ticketCategory.value.text,
+                                cardColor = ticketColor.value.color,
+                                createdOn = state.value.ticket?.createdOn ?: System.currentTimeMillis(),
+                                closedOn = state.value.ticket?.closedOn,
+                                openedOn = state.value.ticket?.openedOn,
+                            )
                         )
-                    )
-                    _eventFlow.emit(UiEvent.SaveTicket)
+                        _eventFlow.emit(UiEvent.SaveTicket)
+                    } else {
+                        _dialogState.value = _dialogState.value.copy(
+                            errorMessage = "Title field can not be empty"
+                        )
+                    }
                 }
             }
         }
+    }
+
+    fun hideErrorDialog() {
+        _dialogState.value = _dialogState.value.copy(
+            errorMessage = null
+        )
     }
 
     sealed class UiEvent {

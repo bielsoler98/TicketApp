@@ -16,11 +16,12 @@ import com.senyor_o.firebaseticketapp.ui.theme.DeepBlue
 
 @Composable
 fun EditTopBar(
+    title: String,
     onNavigationClicked: () -> Unit
 ) {
     TopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(text = title)
         },
         backgroundColor = DeepBlue,
         contentColor = Color.White,

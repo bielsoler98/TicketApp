@@ -18,11 +18,12 @@ import com.senyor_o.firebaseticketapp.presentation.edit.EditEvent
 fun TicketInputText(
     title: String,
     text: String,
-    maxChar: Int,
     modifier: Modifier = Modifier,
+    maxChar: Int = 0,
+    enabled: Boolean = true,
     singleLine: Boolean = true,
     maxLines: Int = 1,
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -40,12 +41,15 @@ fun TicketInputText(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            enabled = enabled
         )
-        Text(
-            text = "${text.length} / $maxChar",
-            textAlign = TextAlign.End,
-            modifier = Modifier.fillMaxWidth().padding(end = 32.dp)
-        )
+        if (maxChar > 0) {
+            Text(
+                text = "${text.length} / $maxChar",
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth().padding(end = 32.dp)
+            )
+        }
     }
 }

@@ -27,7 +27,7 @@ import com.senyor_o.firebaseticketapp.presentation.main.components.Drawer
 import com.senyor_o.firebaseticketapp.presentation.main.components.MainFab
 import com.senyor_o.firebaseticketapp.presentation.main.home.HomeScreen
 import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.TicketListScreen
-import com.senyor_o.firebaseticketapp.presentation.main.ticket_list.components.TopBar
+import com.senyor_o.firebaseticketapp.presentation.main.components.TopBar
 import com.senyor_o.firebaseticketapp.ui.theme.DeepBlue
 import kotlinx.coroutines.launch
 
@@ -41,7 +41,7 @@ fun MainScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    val drawerState = viewModel.state.value
+    val drawerState = viewModel.drawerState.value
 
     Scaffold(
         scaffoldState = scaffoldState,

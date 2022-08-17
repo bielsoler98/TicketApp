@@ -30,6 +30,7 @@ import com.senyor_o.firebaseticketapp.domain.model.CardColor
 fun TicketCard(
     title: String,
     category: String,
+    date: String = "",
     cardColor: CardColorSet,
     modifier: Modifier = Modifier,
     startButton: @Composable (Modifier) -> Unit = {},
@@ -102,7 +103,7 @@ fun TicketCard(
                     onClick()
                 },
         ) {
-            val (categoryRef, titleRef, startButton, endButton) = createRefs()
+            val (categoryRef, titleRef, dateRef, startButton, endButton) = createRefs()
             Text(
                 text = category,
                 style = MaterialTheme.typography.h2,
@@ -110,9 +111,20 @@ fun TicketCard(
                 modifier = Modifier
                     .padding(vertical = 2.dp, horizontal = 6.dp)
                     .constrainAs(categoryRef) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                    }
+            )
+            Text(
+                text = date,
+                style = MaterialTheme.typography.h2,
+                lineHeight = 26.sp,
+                modifier = Modifier
+                    .padding(vertical = 2.dp, horizontal = 6.dp)
+                    .constrainAs(dateRef) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    }
             )
             Text(
                 text = title,
