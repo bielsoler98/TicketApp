@@ -9,13 +9,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.senyor_o.firebaseticketapp.domain.model.CardColor
-import com.senyor_o.firebaseticketapp.presentation.edit.ColorState
 import com.senyor_o.firebaseticketapp.presentation.edit.EditEvent
+import com.senyor_o.firebaseticketapp.presentation.edit.EditState
 import com.senyor_o.firebaseticketapp.presentation.edit.EditViewModel
 
 @Composable
 fun TicketColorInput(
-    state: State<ColorState>,
+    state: State<EditState>,
     color: CardColor,
     onClick: (EditEvent) -> Unit
 ) {
@@ -37,5 +37,5 @@ fun TicketColorInput(
 @Composable
 fun PreviewRoundPicker() {
     val viewModel: EditViewModel = hiltViewModel()
-    TicketColorInput(viewModel.ticketColor, CardColor.RED, onClick = {})
+    TicketColorInput(viewModel.state, CardColor.RED, onClick = {})
 }

@@ -12,11 +12,11 @@ class MainScreenViewModel @Inject constructor(
 
 ): ViewModel() {
 
-    private val _drawerState: MutableState<DrawerState> = mutableStateOf(DrawerState())
-    val drawerState: State<DrawerState> = _drawerState
+    private val _state: MutableState<MainScreenState> = mutableStateOf(MainScreenState())
+    val state: State<MainScreenState> = _state
 
     fun changeIndex(idx: Int) {
-        _drawerState.value = drawerState.value.copy(
+        _state.value = _state.value.copy(
             selectedIndex = idx
         )
     }

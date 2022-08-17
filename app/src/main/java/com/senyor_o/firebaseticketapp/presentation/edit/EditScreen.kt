@@ -32,14 +32,7 @@ fun EditScreen(
     navController: NavController,
     viewModel: EditViewModel = hiltViewModel()
 ) {
-    val title = viewModel.ticketTitle.value
-    val description = viewModel.ticketDescription.value
-    val category = viewModel.ticketCategory.value
-    val colorState = viewModel.ticketColor.value
-    val ticketCreationDate = viewModel.ticketCreationDate.value
-    val ticketOpenDate = viewModel.ticketOpenDate.value
-    val ticketCloseDate = viewModel.ticketClosedDate.value
-    val dialogMessage = viewModel.dialogState.value
+    val state = viewModel.state.value
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -92,9 +85,9 @@ fun EditScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     TicketCard(
-                        title = title.text,
-                        category = category.text,
-                        cardColor = colorState.color.cardColorSet
+                        title = state.title,
+                        category = state.category,
+                        cardColor = state.color.cardColorSet
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
@@ -102,22 +95,22 @@ fun EditScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         TicketColorInput(
-                            viewModel.ticketColor,
+                            viewModel.state,
                             CardColor.RED,
                             onClick = viewModel::onEvent
                         )
                         TicketColorInput(
-                            viewModel.ticketColor,
+                            viewModel.state,
                             CardColor.BLUE,
                             onClick = viewModel::onEvent
                         )
                         TicketColorInput(
-                            viewModel.ticketColor,
+                            viewModel.state,
                             CardColor.GREEN,
                             onClick = viewModel::onEvent
                         )
                         TicketColorInput(
-                            viewModel.ticketColor,
+                            viewModel.state,
                             CardColor.YELLOW,
                             onClick = viewModel::onEvent
                         )
@@ -125,7 +118,7 @@ fun EditScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     TicketInputText(
                         title = "Title",
-                        text = title.text,
+                        text = state.title,
                         maxChar = 20,
                         onTextChange = {
                             viewModel.onEvent(EditEvent.EnteredTitle(it))
@@ -133,7 +126,7 @@ fun EditScreen(
                     )
                     TicketInputText(
                         title = "Category",
-                        text = category.text,
+                        text = state.category,
                         maxChar = 20,
                         onTextChange = {
                             viewModel.onEvent(EditEvent.EnteredCategory(it))
@@ -143,7 +136,7 @@ fun EditScreen(
                         title = "Description",
                         modifier = Modifier
                             .height(120.dp),
-                        text = description.text,
+                        text = state.description,
                         maxChar = 180,
                         maxLines = 5,
                         singleLine = false,
@@ -151,26 +144,28 @@ fun EditScreen(
                             viewModel.onEvent(EditEvent.EnteredDescription(it))
                         }
                     )
-                    if(ticketCreationDate.text.isNotEmpty()) {
-                        TicketInputText(
-                            title = "Creation Date",
-                            text = ticketCreationDate.text,
-                            enabled = false
-                        )
-                    }
-                    if(ticketOpenDate.text.isNotEmpty()) {
-                        TicketInputText(
-                            title = "Open Date",
-                            text = ticketOpenDate.text,
-                            enabled = false
-                        )
-                    }
-                    if(ticketCloseDate.text.isNotEmpty()) {
-                        TicketInputText(
-                            title = "Completed Date",
-                            text = ticketCloseDate.text,
-                            enabled = false
-                        )
+                    if(state.ticket != null) {
+                        if(state.ticket.getFormattedCreationDate().isNotEmpty()) {
+                            TicketInputText(
+                                title = "Creation Date",
+                                text = state.ticket.getFormattedCreationDate(),
+                                enabled = false
+                            )
+                        }
+                        if(state.ticket.getFormattedOpenDate().isNotEmpty()) {
+                            TicketInputText(
+                                title = "Open Date",
+                                text = state.ticket.getFormattedOpenDate(),
+                                enabled = false
+                            )
+                        }
+                        if(state.ticket.getFormattedClosedDate().isNotEmpty()) {
+                            TicketInputText(
+                                title = "Completed Date",
+                                text = state.ticket.getFormattedClosedDate(),
+                                enabled = false
+                            )
+                        }
                     }
                 }
                 RoundedButton(
@@ -183,7 +178,7 @@ fun EditScreen(
                             end.linkTo(parent.end)
                         },
                     text = if(viewModel.currentTicketId != null) {
-                        "SaveTicket"
+                        "Save Ticket"
                     } else {
                         "Create Ticket"
                     },
@@ -194,9 +189,9 @@ fun EditScreen(
                     }
                 )
             }
-            if(dialogMessage.errorMessage != null){
+            if(state.errorMessage != null){
                 EventDialog(
-                    errorMessage = dialogMessage.errorMessage,
+                    errorMessage = state.errorMessage,
                     onDismiss = viewModel::hideErrorDialog
                 )
             }

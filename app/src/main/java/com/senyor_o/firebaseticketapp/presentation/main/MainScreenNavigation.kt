@@ -41,7 +41,7 @@ fun MainScreen(
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
-    val drawerState = viewModel.drawerState.value
+    val drawerState = viewModel.state.value
 
     Scaffold(
         scaffoldState = scaffoldState,

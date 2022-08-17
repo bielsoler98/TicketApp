@@ -35,8 +35,6 @@ fun TicketListScreen(
     scaffoldState: ScaffoldState
 ) {
     val state = viewModel.state.value
-    val scrollState = viewModel.scrollState.value
-    val typeState = viewModel.typeState.value
     val snackbarHostState = remember { SnackbarHostState() }
     val listState = rememberLazyListState()
 
@@ -59,7 +57,7 @@ fun TicketListScreen(
         }
     }
     LaunchedEffect(key1 = true) {
-        listState.animateScrollToItem(scrollState.scrollTo)
+        listState.animateScrollToItem(state.scrollTo)
     }
     Box(
         modifier = Modifier
@@ -68,7 +66,7 @@ fun TicketListScreen(
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = typeState.ticketType.title,
+                text = state.ticketType.title,
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier.padding(15.dp)
             )
@@ -90,7 +88,7 @@ fun TicketListScreen(
                                 StartButton(
                                     modifier = modifier,
                                     ticket = it,
-                                    ticketType = typeState.ticketType,
+                                    ticketType = state.ticketType,
                                     onClick = viewModel::onEvent
                                 )
                             },
@@ -98,7 +96,7 @@ fun TicketListScreen(
                                 EndButton(
                                     modifier = modifier,
                                     ticket = it,
-                                    ticketType = typeState.ticketType,
+                                    ticketType = state.ticketType,
                                     onClick = viewModel::onEvent
                                 )
                             }

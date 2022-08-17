@@ -1,5 +1,5 @@
 package com.senyor_o.firebaseticketapp.presentation.main
 
-data class DrawerState(
+data class MainScreenState(
     val selectedIndex: Int = 0
 )
