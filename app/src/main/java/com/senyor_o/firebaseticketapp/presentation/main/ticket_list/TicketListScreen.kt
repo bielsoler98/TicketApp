@@ -81,6 +81,12 @@ fun TicketListScreen(
                             title = it.title,
                             category = it.category,
                             cardColor = it.cardColor.cardColorSet,
+                            date = when(state.ticketType) {
+                                TicketType.ALL -> it.getFormattedCreationDate()
+                                TicketType.TODO -> it.getFormattedCreationDate()
+                                TicketType.OPEN -> it.getFormattedOpenDate()
+                                TicketType.CLOSED -> it.getFormattedClosedDate()
+                            },
                             onClick = {
                                 navController.navigate(AppScreen.EditScreen.passId(it.id))
                             },

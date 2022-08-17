@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.senyor_o.firebaseticketapp.domain.model.Ticket
+import com.senyor_o.firebaseticketapp.domain.model.TicketType
 import com.senyor_o.firebaseticketapp.presentation.components.TicketCard
 
 @Composable
@@ -34,6 +35,12 @@ fun HomeSection(
                         modifier = Modifier.height(216.dp),
                         title = ticket.title,
                         category = ticket.category,
+                        date = when(ticket.getType()) {
+                            TicketType.ALL -> ticket.getFormattedCreationDate()
+                            TicketType.TODO -> ticket.getFormattedCreationDate()
+                            TicketType.OPEN -> ticket.getFormattedOpenDate()
+                            TicketType.CLOSED -> ticket.getFormattedClosedDate()
+                        },
                         cardColor = ticket.cardColor.cardColorSet,
                         onClick = {
                             onItemClick(ticket, index)
